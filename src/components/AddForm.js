@@ -1,16 +1,24 @@
 
 import { Form, Button } from "react-bootstrap"
 import {EmployeeContext} from '../context/EmployeeContext';
-import {useContext, useState} from 'react';
+import {useContext,  useState} from 'react';
 
 
 const AddForm = () =>{
 
+    // useEffect (() => {
+    //     console.log("COMPONENT MOUNTED");
+    //     return() =>{
+    //         console.log("COMPONENT UNMOUNTED");
+
+    //     }
+    // },[])
+
     const {addEmployee} = useContext(EmployeeContext);
 
     const [newEmployee, setNewEmployee] = useState({
-        name:"", email:"", phone:"", address:""
-    });
+        name:"", email:"", address:"", phone:""
+    },{});
     
     
     const onInputChange = (e) => {
@@ -18,11 +26,11 @@ const AddForm = () =>{
         setNewEmployee({...newEmployee, [e.target.name]: e.target.value})
     }
 
-    const {name, email, phone, address} = newEmployee;
+    const {name, email, address, phone} = newEmployee;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addEmployee(name, email, phone, address);
+        addEmployee(name, email, address, phone);
         //console.log(name);
     }
 
