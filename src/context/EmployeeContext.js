@@ -27,6 +27,7 @@ const deleteEmployee = (id) => {
 
 const updateEmployee = (id, updatedEmployee)  => {
     setEmployees(employees.map((employee)=> employee.id === id ? updatedEmployee : employee))
+    
 }
 
 
