@@ -13,6 +13,8 @@ const[employees, setEmployees] = useState([
     {id: uuidv4(), name: 'Randy Rodella', email:'hey-randeeee@mail.com', address: 'Via Monte Bianco 34, Turin, Italy', phone:'(204) 619-5731'}
 ])
 
+const sortedEmployees = employees.sort((a,b)=>(a.name < b.name ? -1 : 1))
+
 //add employee
 const addEmployee = (name, email, address, phone) => {
     setEmployees([...employees , {id:uuidv4(), name, email, address, phone}])
@@ -32,7 +34,7 @@ const updateEmployee = (id, updatedEmployee)  => {
 
 
     return(
-        <EmployeeContext.Provider value={{employees, addEmployee, deleteEmployee, updateEmployee}}>
+        <EmployeeContext.Provider value={{sortedEmployees, addEmployee, deleteEmployee, updateEmployee}}>
             {props.children}
         </EmployeeContext.Provider>
     )

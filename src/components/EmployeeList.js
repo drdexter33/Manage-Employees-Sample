@@ -3,10 +3,11 @@ import { useContext, useEffect, useState } from 'react';
 import { EmployeeContext } from '../context/EmployeeContext';
 import Employee from './Employee';
 import AddForm from './AddForm';
+import Pagination from './Pagination';
 
 const EmployeeList = () => {
 
-    const {employees} = useContext(EmployeeContext);
+    const {sortedEmployees} = useContext(EmployeeContext);
 
     const [showAlert, setShowAlert] = useState(false);
   
@@ -14,7 +15,9 @@ const EmployeeList = () => {
     
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    //const handleShowAlert = () =>setShowAlert(true);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [employeePerPage] = useState(2);
 
     const handleShowAlert = () => {
         setShowAlert(true);
@@ -26,7 +29,7 @@ const EmployeeList = () => {
 
     useEffect(() => {
         console.log("COMPONENT RENDERED");
-    }, [employees])
+    }, [sortedEmployees])
 
     useEffect(()=>{
         handleClose();
@@ -34,7 +37,12 @@ const EmployeeList = () => {
         return () => {
             handleShowAlert();
         }
-    },[employees])
+    },[sortedEmployees])
+
+    const indexOfLastEmployee = currentPage * employeePerPage;
+    const indexOfFirstEmployee = indexOfLastEmployee - employeePerPage;
+    const currentEmployees = sortedEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee);
+    const totalPageNum = Math.ceil(sortedEmployees.length/employeePerPage);
 
     return(
         <>
@@ -65,7 +73,7 @@ const EmployeeList = () => {
             <tbody>
                     {
                         
-                        employees.sort((a,b)=>(a.name < b.name ? -1 : 1)).map(employee => (
+                        currentEmployees.map(employee => (
                             <tr key={employee.id}>
                                 <Employee employee={employee} />
                             </tr>
@@ -74,6 +82,9 @@ const EmployeeList = () => {
                    
             </tbody>
             </table>
+
+            <Pagination pages={totalPageNum} setCurrentPage={setCurrentPage} />
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
