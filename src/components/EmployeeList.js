@@ -1,4 +1,4 @@
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button, Alert} from 'react-bootstrap';
 import { useContext, useEffect, useState } from 'react';
 import { EmployeeContext } from '../context/EmployeeContext';
 import Employee from './Employee';
@@ -8,19 +8,33 @@ const EmployeeList = () => {
 
     const {employees} = useContext(EmployeeContext);
 
+    const [showAlert, setShowAlert] = useState(false);
   
     const [show, setShow] = useState(false);
     
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
+    //const handleShowAlert = () =>setShowAlert(true);
 
-    useEffect(() => {
-        handleClose()
-    },[employees])
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(()=>{
+            setShowAlert(false);
+        },2000)
+    }
+ 
 
     useEffect(() => {
         console.log("COMPONENT RENDERED");
     }, [employees])
+
+    useEffect(()=>{
+        handleClose();
+
+        return () => {
+            handleShowAlert();
+        }
+    },[employees])
 
     return(
         <>
@@ -34,6 +48,10 @@ const EmployeeList = () => {
 					</div>
 				</div>
 			</div>
+
+            <Alert show={showAlert} variant="success">
+                Employee List Updated Successfully!
+            </Alert>
             <table className="table table-striped table-hover">
             <thead>
                 <tr>
@@ -47,7 +65,7 @@ const EmployeeList = () => {
             <tbody>
                     {
                         
-                        employees.map(employee => (
+                        employees.sort((a,b)=>(a.name < b.name ? -1 : 1)).map(employee => (
                             <tr key={employee.id}>
                                 <Employee employee={employee} />
                             </tr>
