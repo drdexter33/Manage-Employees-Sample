@@ -27,9 +27,9 @@ const EmployeeList = () => {
     }
  
 
-    useEffect(() => {
-        console.log("COMPONENT RENDERED");
-    }, [sortedEmployees])
+    // useEffect(() => {
+    //     console.log("COMPONENT RENDERED");
+    // }, [sortedEmployees])
 
     useEffect(()=>{
         handleClose();

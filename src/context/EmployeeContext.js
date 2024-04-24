@@ -1,4 +1,4 @@
-import { createContext,useState } from "react";
+import { createContext,useEffect,useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 export const EmployeeContext = createContext()
@@ -12,6 +12,16 @@ const[employees, setEmployees] = useState([
     {id: uuidv4(), name: 'Cortez-Kortez', email:'Gumby@mail.com', address:'C/ Araquil, 67, Madrid, Spain', phone:'(204) 619-5731'},
     {id: uuidv4(), name: 'Randy Rodella', email:'hey-randeeee@mail.com', address: 'Via Monte Bianco 34, Turin, Italy', phone:'(204) 619-5731'}
 ])
+
+useEffect(()=>{
+    setEmployees(JSON.parse(localStorage.getItem('employees')));
+},[])
+
+useEffect(()=>{
+    localStorage.setItem('employees', JSON.stringify(employees));
+})
+
+
 
 const sortedEmployees = employees.sort((a,b)=>(a.name < b.name ? -1 : 1))
 
