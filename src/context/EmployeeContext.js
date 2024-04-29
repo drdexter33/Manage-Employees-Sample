@@ -19,7 +19,6 @@ useEffect(()=>{
 
 useEffect(()=>{
     localStorage.setItem('employees', JSON.stringify(employees));
-    alert();
 })
 
 
